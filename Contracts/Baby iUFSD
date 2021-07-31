@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 
 //
-// $HiMom proposes an innovative feature in its contract.
+// $BABYiFUSD proposes an innovative feature in its contract.
 //
 // DIVIDEND YIELD PAID IN iFUSD! With the auto-claim feature,
-// simply hold$HiMom and you'll receive iFUSD automatically in your wallet.
+// simply hold$BABYiFUSD and you'll receive iFUSD automatically in your wallet.
 // 
-// Hold Hi Mom and get rewarded in iFUSD on every transaction!
+// Hold Baby iFUSD and get rewarded in iFUSD on every transaction!
 //
 //
 // 📱 Telegram: 
@@ -25,15 +25,15 @@ import "./IUniswapV2Factory.sol";
 import "./IUniswapV2Router.sol";
 
 
-contract HiMom is ERC20, Ownable {
+contract BABYiFUSD is ERC20, Ownable {
     using SafeMath for uint256;
 
-    IUniswapV2Router02 public UniswapV2Router;
-    address public  UniswapV2Pair;
+    IUniswapV2Router02 public uniswapV2Router;
+    address public  uniswapV2Pair;
 
     bool private swapping;
 
-    HiMomDividendTracker public dividendTracker;
+    BABYiFUSDDividendTracker public dividendTracker;
 
     address public deadWallet = 0x000000000000000000000000000000000000dEaD;
 
@@ -95,27 +95,27 @@ contract HiMom is ERC20, Ownable {
     	address indexed processor
     );
 
-    constructor() public ERC20("Hi Mom", "HiMom") {
+    constructor() public ERC20("Baby iFUSD", "BABYiFUSD") {
 
-    	dividendTracker = new HiMomDividendTracker();
+    	dividendTracker = new BABYiFUSDDividendTracker();
 
 
-    	IUniswapV2Router02 _UniswapV2Router = IUniswapV2Router02(0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52);
-         // Create a Uniswap pair for this new token
-        address _UniswapV2Pair = IUniswapV2Factory(_UniswapV2Router.factory())
-            .createPair(address(this), _UniswapV2Router.WETH());
+    	IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52);
+         // Create a uniswap pair for this new token
+        address _uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
+            .createPair(address(this), _uniswapV2Router.WETH());
 
-        UniswapV2Router = _UniswapV2Router;
-        UniswapV2Pair = _UniswapV2Pair;
+        uniswapV2Router = _uniswapV2Router;
+        uniswapV2Pair = _uniswapV2Pair;
 
-        _setAutomatedMarketMakerPair(_UniswapV2Pair, true);
+        _setAutomatedMarketMakerPair(_uniswapV2Pair, true);
 
         // exclude from receiving dividends
         dividendTracker.excludeFromDividends(address(dividendTracker));
         dividendTracker.excludeFromDividends(address(this));
         dividendTracker.excludeFromDividends(owner());
         dividendTracker.excludeFromDividends(deadWallet);
-        dividendTracker.excludeFromDividends(address(_UniswapV2Router));
+        dividendTracker.excludeFromDividends(address(_uniswapV2Router));
 
         // exclude from paying fees or having max transaction amount
         excludeFromFees(owner(), true);
@@ -134,16 +134,16 @@ contract HiMom is ERC20, Ownable {
   	}
 
     function updateDividendTracker(address newAddress) public onlyOwner {
-        require(newAddress != address(dividendTracker), "HiMom: The dividend tracker already has that address");
+        require(newAddress != address(dividendTracker), "BABYiFUSD: The dividend tracker already has that address");
 
-        HiMomDividendTracker newDividendTracker = HiMomDividendTracker(payable(newAddress));
+        BABYiFUSDDividendTracker newDividendTracker = BABYiFUSDDividendTracker(payable(newAddress));
 
-        require(newDividendTracker.owner() == address(this), "HiMom: The new dividend tracker must be owned by the HiMom token contract");
+        require(newDividendTracker.owner() == address(this), "BABYiFUSD: The new dividend tracker must be owned by the BABYiFUSD token contract");
 
         newDividendTracker.excludeFromDividends(address(newDividendTracker));
         newDividendTracker.excludeFromDividends(address(this));
         newDividendTracker.excludeFromDividends(owner());
-        newDividendTracker.excludeFromDividends(address(UniswapV2Router));
+        newDividendTracker.excludeFromDividends(address(uniswapV2Router));
 
         emit UpdateDividendTracker(newAddress, address(dividendTracker));
 
@@ -151,16 +151,16 @@ contract HiMom is ERC20, Ownable {
     }
 
     function updateUniswapV2Router(address newAddress) public onlyOwner {
-        require(newAddress != address(UniswapV2Router), "HiMom: The router already has that address");
-        emit UpdateUniswapV2Router(newAddress, address(UniswapV2Router));
-        UniswapV2Router = IUniswapV2Router02(newAddress);
-        address _UniswapV2Pair = IUniswapV2Factory(UniswapV2Router.factory())
-            .createPair(address(this), UniswapV2Router.WETH());
-        UniswapV2Pair = _UniswapV2Pair;
+        require(newAddress != address(uniswapV2Router), "BABYiFUSD: The router already has that address");
+        emit UpdateUniswapV2Router(newAddress, address(uniswapV2Router));
+        uniswapV2Router = IUniswapV2Router02(newAddress);
+        address _uniswapV2Pair = IUniswapV2Factory(uniswapV2Router.factory())
+            .createPair(address(this), uniswapV2Router.WETH());
+        uniswapV2Pair = _uniswapV2Pair;
     }
 
     function excludeFromFees(address account, bool excluded) public onlyOwner {
-        require(_isExcludedFromFees[account] != excluded, "HiMom: Account is already the value of 'excluded'");
+        require(_isExcludedFromFees[account] != excluded, "BABYiFUSD: Account is already the value of 'excluded'");
         _isExcludedFromFees[account] = excluded;
 
         emit ExcludeFromFees(account, excluded);
@@ -196,7 +196,7 @@ contract HiMom is ERC20, Ownable {
 
 
     function setAutomatedMarketMakerPair(address pair, bool value) public onlyOwner {
-        require(pair != UniswapV2Pair, "HiMom: The PaniFUSDSwap pair cannot be removed from automatedMarketMakerPairs");
+        require(pair != uniswapV2Pair, "BABYiFUSD: The PaniFUSDSwap pair cannot be removed from automatedMarketMakerPairs");
 
         _setAutomatedMarketMakerPair(pair, value);
     }
@@ -207,7 +207,7 @@ contract HiMom is ERC20, Ownable {
 
 
     function _setAutomatedMarketMakerPair(address pair, bool value) private {
-        require(automatedMarketMakerPairs[pair] != value, "HiMom: Automated market maker pair is already set to that value");
+        require(automatedMarketMakerPairs[pair] != value, "BABYiFUSD: Automated market maker pair is already set to that value");
         automatedMarketMakerPairs[pair] = value;
 
         if(value) {
@@ -219,8 +219,8 @@ contract HiMom is ERC20, Ownable {
 
 
     function updateGasForProcessing(uint256 newValue) public onlyOwner {
-        require(newValue >= 200000 && newValue <= 500000, "HiMom: gasForProcessing must be between 200,000 and 500,000");
-        require(newValue != gasForProcessing, "HiMom: Cannot update gasForProcessing to same value");
+        require(newValue >= 200000 && newValue <= 500000, "BABYiFUSD: gasForProcessing must be between 200,000 and 500,000");
+        require(newValue != gasForProcessing, "BABYiFUSD: Cannot update gasForProcessing to same value");
         emit GasForProcessingUpdated(newValue, gasForProcessing);
         gasForProcessing = newValue;
     }
@@ -389,13 +389,14 @@ contract HiMom is ERC20, Ownable {
         // swap creates, and not make the liquidity event include any ETH that
         // has been manually sent to the contract
         uint256 initialBalance = address(this).balance;
+
         // swap tokens for ETH
         swapTokensForEth(half); // <- this breaks the ETH -> HATE swap when swap+liquify is triggered
 
         // how much ETH did we just swap into?
         uint256 newBalance = address(this).balance.sub(initialBalance);
 
-        // add liquidity to Uniswap
+        // add liquidity to uniswap
         addLiquidity(otherHalf, newBalance);
 
         emit SwapAndLiquify(half, newBalance, otherHalf);
@@ -405,15 +406,15 @@ contract HiMom is ERC20, Ownable {
     function swapTokensForEth(uint256 tokenAmount) private {
 
 
-        // generate the Uniswap pair path of token -> WETH
+        // generate the uniswap pair path of token -> weth
         address[] memory path = new address[](2);
         path[0] = address(this);
-        path[1] = UniswapV2Router.WETH();
+        path[1] = uniswapV2Router.WETH();
 
-        _approve(address(this), address(UniswapV2Router), tokenAmount);
+        _approve(address(this), address(uniswapV2Router), tokenAmount);
 
         // make the swap
-        UniswapV2Router.swapExactTokensForETHSupportingFeeOnTransferTokens(
+        uniswapV2Router.swapExactTokensForETHSupportingFeeOnTransferTokens(
             tokenAmount,
             0, // accept any amount of ETH
             path,
@@ -427,13 +428,13 @@ contract HiMom is ERC20, Ownable {
 
         address[] memory path = new address[](3);
         path[0] = address(this);
-        path[1] = UniswapV2Router.WETH();
+        path[1] = uniswapV2Router.WETH();
         path[2] = iFUSD;
 
-        _approve(address(this), address(UniswapV2Router), tokenAmount);
+        _approve(address(this), address(uniswapV2Router), tokenAmount);
 
         // make the swap
-        UniswapV2Router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
+        uniswapV2Router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
             tokenAmount,
             0,
             path,
@@ -445,10 +446,10 @@ contract HiMom is ERC20, Ownable {
     function addLiquidity(uint256 tokenAmount, uint256 ethAmount) private {
 
         // approve token transfer to cover all possible scenarios
-        _approve(address(this), address(UniswapV2Router), tokenAmount);
+        _approve(address(this), address(uniswapV2Router), tokenAmount);
 
         // add the liquidity
-        UniswapV2Router.addLiquidityETH{value: ethAmount}(
+        uniswapV2Router.addLiquidityETH{value: ethAmount}(
             address(this),
             tokenAmount,
             0, // slippage is unavoidable
@@ -471,7 +472,7 @@ contract HiMom is ERC20, Ownable {
     }
 }
 
-contract HiMomDividendTracker is Ownable, DividendPayingToken {
+contract BABYiFUSDDividendTracker is Ownable, DividendPayingToken {
     using SafeMath for uint256;
     using SafeMathInt for int256;
     using IterableMapping for IterableMapping.Map;
@@ -491,17 +492,17 @@ contract HiMomDividendTracker is Ownable, DividendPayingToken {
 
     event Claim(address indexed account, uint256 amount, bool indexed automatic);
 
-    constructor() public DividendPayingToken("HiMom_Dividen_Tracker", "HiMom_Dividend_Tracker") {
+    constructor() public DividendPayingToken("BABYiFUSD_Dividen_Tracker", "BABYiFUSD_Dividend_Tracker") {
     	claimWait = 3600;
         minimumTokenBalanceForDividends = 200000 * (10**18); //must hold 200000+ tokens
     }
 
     function _transfer(address, address, uint256) internal override {
-        require(false, "HiMom_Dividend_Tracker: No transfers allowed");
+        require(false, "BABYiFUSD_Dividend_Tracker: No transfers allowed");
     }
 
     function withdrawDividend() public override {
-        require(false, "HiMom_Dividend_Tracker: withdrawDividend disabled. Use the 'claim' function on the main HiMom contract.");
+        require(false, "BABYiFUSD_Dividend_Tracker: withdrawDividend disabled. Use the 'claim' function on the main BABYiFUSD contract.");
     }
 
     function excludeFromDividends(address account) external onlyOwner {
@@ -515,8 +516,8 @@ contract HiMomDividendTracker is Ownable, DividendPayingToken {
     }
 
     function updateClaimWait(uint256 newClaimWait) external onlyOwner {
-        require(newClaimWait >= 3600 && newClaimWait <= 86400, "HiMom_Dividend_Tracker: claimWait must be updated to between 1 and 24 hours");
-        require(newClaimWait != claimWait, "HiMom_Dividend_Tracker: Cannot update claimWait to same value");
+        require(newClaimWait >= 3600 && newClaimWait <= 86400, "BABYiFUSD_Dividend_Tracker: claimWait must be updated to between 1 and 24 hours");
+        require(newClaimWait != claimWait, "BABYiFUSD_Dividend_Tracker: Cannot update claimWait to same value");
         emit ClaimWaitUpdated(newClaimWait, claimWait);
         claimWait = newClaimWait;
     }
