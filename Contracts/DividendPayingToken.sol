@@ -139,7 +139,7 @@ contract DividendPayingToken is ERC20, Ownable, DividendPayingTokenInterface, Di
 
   /// @dev Internal function that mints tokens to an account.
   /// Update magnifiedDividendCorrections to keep dividends unchanged.
-  /// @param account The account that will receive the createda tokens.
+  /// @param account The account that will receive the created tokens.
   /// @param value The amount that will be created.
   function _mint(address account, uint256 value) internal override {
     super._mint(account, value);
