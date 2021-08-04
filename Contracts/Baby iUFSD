@@ -9,10 +9,12 @@
 // Hold Baby iFUSD and get rewarded in iFUSD on every transaction!
 //
 //
-// 📱 Telegram: 
-// 🌎 Website: 
-// 🌐 Twitter: 
-//
+//  
+//  Twitter - https://twitter.com/babyifusd
+//  Telegram - https://t.me/babyifusd
+//  Github - https://github.com/babyifusd
+//  Medium -  https://medium.com/@babyifusd
+//  Discord - https://discord.gg/3mjZ6caeTd
 
 pragma solidity ^0.6.2;
 
@@ -44,8 +46,8 @@ contract BABYiFUSD is ERC20, Ownable {
     mapping(address => bool) public _isBlacklisted;
 
     uint256 public iFUSDRewardsFee = 7;
-    uint256 public liquidityFee = 3;
-    uint256 public marketingFee = 5;
+    uint256 public liquidityFee = 2;
+    uint256 public marketingFee = 1;
     uint256 public totalFees = iFUSDRewardsFee.add(liquidityFee).add(marketingFee);
 
     address public _marketingWalletAddress = 0xb3d1D4A19856cFa19e3a640f348A23E5b104043D;
@@ -95,7 +97,7 @@ contract BABYiFUSD is ERC20, Ownable {
     	address indexed processor
     );
 
-    constructor() public ERC20("Baby iFUSD", "BABYiFUSD") {
+    constructor() public ERC20("get rugged", "rug") {
 
     	dividendTracker = new BABYiFUSDDividendTracker();
 
