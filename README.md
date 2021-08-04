@@ -59,15 +59,13 @@ Locked Liquidity
 Initial liquidity will be burned to provide holders with peace of mind that the token can always be exchanged. 
 
 Contract Audit Prior to Launch
-In an effort to increase transparency and ensure security the original Baby Cakes team had purchased a top-tier audit with HASHEX to be ensure no vulnerabilities can be found such as:
+In an effort to increase transparency and ensure security the original Baby Cake team had purchased a top-tier audit with HASHEX to be ensure no vulnerabilities can be found such as:
 -Integer Overflow
 -Integer Underflow
 -Callstack Depth Attack
 -Timestamp Dependency
 -Parity Multisig Bug
 -Transaction-Ordering Dependency
-
-Baby iFUSD has been very minimally changed and while we wanted to verify the contracts there seems to be an issue with FTMscan that all of the Baby Cake forks are having.
 
 Other Features
 Anti-Dump Logic
