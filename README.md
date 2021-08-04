@@ -1,4 +1,14 @@
-  
+                                                                                                                 
+88888888ba               88                           88  88888888888  88        88   ad88888ba   88888888ba,    
+88      "8b              88                           ""  88           88        88  d8"     "8b  88      `"8b   
+88      ,8P              88                               88           88        88  Y8,          88        `8b  
+88aaaaaa8P'  ,adPPYYba,  88,dPPYba,   8b       d8     88  88aaaaa      88        88  `Y8aaaaa,    88         88  
+88""""""8b,  ""     `Y8  88P'    "8a  `8b     d8'     88  88"""""      88        88    `"""""8b,  88         88  
+88      `8b  ,adPPPPP88  88       d8   `8b   d8'      88  88           88        88          `8b  88         8P  
+88      a8P  88,    ,88  88b,   ,a8"    `8b,d8'       88  88           Y8a.    .a8P  Y8a     a8P  88      .a8P   
+88888888P"   `"8bbdP"Y8  8Y"Ybbd8"'       Y88'        88  88            `"Y8888Y"'    "Y88888P"   88888888Y"'    
+                                          d8'                                                                    
+                                         d8'                                                                     
                                                                                                                                                                   
 Baby iFUSD ($BABYiFUSD)
 Whitepaper
