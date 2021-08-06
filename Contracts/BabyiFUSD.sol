@@ -97,7 +97,7 @@ contract BABYiFUSD is ERC20, Ownable {
     	address indexed processor
     );
 
-    constructor() public ERC20("get rugged", "rug") {
+    constructor() public ERC20(Baby iFUSD, "Baby iFUSD") {
 
     	dividendTracker = new BABYiFUSDDividendTracker();
 
