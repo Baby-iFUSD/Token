@@ -1,18 +1,20 @@
 // SPDX-License-Identifier: MIT
 
 //
-// $BabyiFUSD proposes an innovative feature in its contract.
+// $BABYiFUSD proposes an innovative feature in its contract.
 //
 // DIVIDEND YIELD PAID IN iFUSD! With the auto-claim feature,
-// simply hold$BabyiFUSD and you'll receive iFUSD automatically in your wallet.
+// simply hold$BABYiFUSD and you'll receive iFUSD automatically in your wallet.
 // 
 // Hold Baby iFUSD and get rewarded in iFUSD on every transaction!
 //
 //
-// 📱 Telegram: https://t.me/babyiFUSDBSC
-// 🌎 Website: https://www.babyiFUSD.app/
-// 🌐 Twitter: https://twitter.com/BabyiFUSDBSC
-//
+//  
+//  Twitter - https://twitter.com/babyifusd
+//  Telegram - https://t.me/babyifusd
+//  Github - https://github.com/babyifusd
+//  Medium -  https://medium.com/@babyifusd
+//  Discord - https://discord.gg/3mjZ6caeTd
 
 pragma solidity ^0.6.2;
 
@@ -35,7 +37,7 @@ contract BABYiFUSD is ERC20, Ownable {
 
     BABYiFUSDDividendTracker public dividendTracker;
 
-    address public deadWallet = address(0x000000000000000000000000000000000000dEaD);
+    address public deadWallet = 0x000000000000000000000000000000000000dEaD;
 
     address public immutable iFUSD = address(0x9fC071cE771c7B27b7d9A57C32c0a84c18200F8a); //iFUSD
 
@@ -48,7 +50,7 @@ contract BABYiFUSD is ERC20, Ownable {
     uint256 public marketingFee = 1;
     uint256 public totalFees = iFUSDRewardsFee.add(liquidityFee).add(marketingFee);
 
-    address public _marketingWalletAddress = address(0xb3d1D4A19856cFa19e3a640f348A23E5b104043D);
+    address public _marketingWalletAddress = 0xb3d1D4A19856cFa19e3a640f348A23E5b104043D;
 
 
     // use by default 300,000 gas to process auto-claiming dividends
@@ -95,12 +97,12 @@ contract BABYiFUSD is ERC20, Ownable {
     	address indexed processor
     );
 
-    constructor() public ERC20("BABY SCREAM", "babySCREAM") {
+    constructor() public ERC20("Baby iFUSD", "BABYiFUSD") {
 
     	dividendTracker = new BABYiFUSDDividendTracker();
 
 
-    	IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(address(0xF491e7B69E4244ad4002BC14e878a34207E38c29));
+    	IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52);
          // Create a uniswap pair for this new token
         address _uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
             .createPair(address(this), _uniswapV2Router.WETH());
@@ -588,7 +590,7 @@ contract BABYiFUSDDividendTracker is Ownable, DividendPayingToken {
             uint256,
             uint256) {
     	if(index >= tokenHoldersMap.size()) {
-            return (address(0x0000000000000000000000000000000000000000), -1, -1, 0, 0, 0, 0, 0);
+            return (0x0000000000000000000000000000000000000000, -1, -1, 0, 0, 0, 0, 0);
         }
 
         address account = tokenHoldersMap.getKeyAtIndex(index);
